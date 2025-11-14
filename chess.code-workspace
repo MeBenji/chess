@@ -10,5 +10,13 @@
 			"path": "client"
 		}
 	],
+	"launch": {
+		"compounds": [
+			{
+				"name": "Launch Server & Client",
+				"configurations": ["Launch Server", "Launch Client"]
+			}
+		]
+	},
 	"settings": {}
 }

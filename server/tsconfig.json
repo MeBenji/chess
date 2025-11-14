@@ -1,0 +1,54 @@
+{
+  "compilerOptions": {
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Environment Settings
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "moduleResolution": "nodenext",
+
+    // Modulation Settings
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "esModuleInterop": true,
+
+    // Building for a Library in a Monorepo
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "composite": true,
+
+    // Stricter Typechecking Options
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
+    // "noImplicitAny": true,
+    // "noImplicitReturns": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "strictPropertyInitialization": true,
+    // "noImplicitThis": true,
+
+    // Recommended Options
+    "jsx": "react-jsx",
+
+    // Other
+    "rewriteRelativeImportExtensions": true,
+    // "erasableSyntaxOnly": true,
+    // "noErrorTruncation": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    // "noEmitOnError": true,
+  },
+  // "exclude": ["node_modules", "dist", "public"]
+}
