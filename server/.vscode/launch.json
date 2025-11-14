@@ -11,12 +11,14 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/src/server.ts",
+            "program": "${workspaceFolder:server}/src/server.ts",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": [
-                "${workspaceFolder}/**/*.(m|c|)js"
+                "${workspaceFolder:server}/**/*.(m|c|)js"
             ],
-            "console": "integratedTerminal"
+            // "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
+            // "runtimeExecutable": "tsx",
         }
     ]
 }
