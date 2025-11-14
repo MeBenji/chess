@@ -18,5 +18,7 @@
 			}
 		]
 	},
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "chess"
+	}
 }
