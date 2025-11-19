@@ -7,6 +7,21 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${fileWorkspaceFolder}/${relativeFile}",
+            "preLaunchTask": "tsc: build - tsconfig.json",
+            "outFiles": [
+                "${fileWorkspaceFolder}/**/*.(m|c|)js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "envFile": "${workspaceFolder}/.env",
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Server",
             "skipFiles": [
                 "<node_internals>/**"
@@ -19,6 +34,7 @@
             // "console": "integratedTerminal",
             "internalConsoleOptions": "openOnSessionStart",
             // "runtimeExecutable": "tsx",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

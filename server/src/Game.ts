@@ -1,81 +1,90 @@
-import type { GameId, UserId, Move } from "./types.ts";
-import { Chess, type Color } from "chess.js";
+import { Chess } from "chess.js";
+import { ONGOING, BLACK, WHITE, type AddPlayerConfig, type GameId, type GameResult, type Move, type UserId, WIN_WHITE, WIN_BLACK, DRAW, type BoardGame } from "./types.ts";
 
-interface Player {
-    userId: UserId,
-    color: Color
-}
-
-class Game {
-    gameId: GameId;
-    player1: Player | undefined;
-    player2: Player | undefined;
-    chess: Chess;
+class ChessGame implements BoardGame {
+    readonly id: GameId;
+    private _chess: Chess;
+    private _playerBlack: UserId | undefined;
+    private _playerWhite: UserId | undefined;
 
     constructor() {
-        this.gameId = crypto.randomUUID();
-        this.chess = new Chess();
+        this.id = crypto.randomUUID();
+        this._chess = new Chess();
     }
 
-    addPlayer(userId: UserId) {
-        if (!this.player1) {
-            this.player1 = { userId: userId, color: 'w' };
-        } else if (!this.player2) {
-            this.player2 = { userId: userId, color: 'b' };
+    addPlayer(userId: UserId, config?: AddPlayerConfig): void {
+        if (config?.color) {
+            if (config.color === WHITE) {
+                if (!this._playerWhite)
+                    this._playerWhite = userId;
+            } else {
+                if (!this._playerBlack)
+                    this._playerBlack = userId;
+            }
+        } else {
+            if (!this._playerWhite) {
+                if (!this._playerBlack) {
+                    if (Math.floor(Math.random() * 2)) {
+                        this._playerWhite = userId;
+                    } else {
+                        this._playerBlack = userId;
+                    }
+                } else {
+                    this._playerWhite = userId;
+                }
+            } else if (!this._playerBlack) {
+                this._playerBlack = userId;
+            }
         }
     }
 
     getPlayers(): UserId[] {
         const players: UserId[] = [];
-        if (this.player1) {
-            players.push(this.player1.userId);
-        }
-        if (this.player2) {
-            players.push(this.player2.userId);
-        }
+        if (this._playerWhite)
+            players.push(this._playerWhite);
+        if (this._playerBlack)
+            players.push(this._playerBlack);
         return players;
     }
 
-    isReady() {
-        return (this.player1 !== null && this.player2 !== null);
-    }
-
-    getGameState(): string {
-        return this.chess.fen();
-    }
-
     makeMove(userId: UserId, move: Move): boolean {
-        if (!this.player1 || !this.player2) { return false; }
-        const turn = this.chess.turn();
-        if (this.player1.userId === userId && this.player1.color === turn ||
-            this.player2.userId === userId && this.player2.color === turn) {
+        const turn = this._chess.turn();
+        if ((turn === WHITE && userId === this._playerWhite) ||
+            (turn === BLACK && userId === this._playerBlack)) {
             try {
-                this.chess.move(move);
+                this._chess.move(move);
                 return true;
-            } catch (e) {
-                console.error(e);
+            } catch (error) {
             }
         }
         return false;
     }
 
-    isGameOver(): boolean {
-        return this.chess.isGameOver()
+    getGameState(): string {
+        return this._chess.fen();
     }
 
-    getResult(): string {
-        if (!this.chess.isGameOver()) {
-            return "Ongoing game.";
-        } else if (this.chess.isCheckmate()) {
-            if (this.chess.turn() === 'b') {
-                return "White wins.";
+    isGameOver(): boolean {
+        return this._chess.isGameOver();
+    }
+
+    getResult(): GameResult {
+        if (this._chess.isCheckmate()) {
+            if (this._chess.turn() === WHITE) {
+                return WIN_WHITE;
             } else {
-                return "Black wins.";
+                return WIN_BLACK;
             }
+        } else if (this._chess.isDraw()) {
+            return DRAW;
         } else {
-            return "Draw.";
+            return ONGOING;
         }
+    }
+
+    printBoard(): void {
+        console.log(this._chess.ascii());
     }
 }
 
-export default Game;
+export default ChessGame;

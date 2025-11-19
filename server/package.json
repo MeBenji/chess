@@ -12,9 +12,9 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node dist/server.js",
-    "dev": "tsx watch src/server.ts",
-    "dev-old": "nodemon src/server.ts",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
+    "dev-old": "nodemon --env-file-if-exists=.env src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
